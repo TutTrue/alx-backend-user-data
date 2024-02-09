@@ -3,6 +3,7 @@
 import re
 from typing import List
 import logging
+import mysql.connector
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
@@ -26,6 +27,11 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
     return logger
 
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ returns a connector to a database """
+    import mysql.connector
+    return mysql.connector
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
