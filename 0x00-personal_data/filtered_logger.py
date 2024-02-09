@@ -45,24 +45,6 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
 
-def main():
-    """ main function """
-    logger = get_logger()
-
-    connector = get_db()
-    cursor = connector.cursor()
-
-    cursor.execute('SELECT * FROM `users`;')
-    users = cursor.fetchall()
-
-    column_names = cursor.column_names
-
-    for user in users:
-        formatted_user = "".join(f"{attribute}={value}; " for
-                                 attribute, value in zip(column_names, user))
-        logger.info(formatted_user)
-
-
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -79,7 +61,3 @@ class RedactingFormatter(logging.Formatter):
         """ format obfuscated message """
         msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
-
-
-if __name__ == '__main__':
-    main()
