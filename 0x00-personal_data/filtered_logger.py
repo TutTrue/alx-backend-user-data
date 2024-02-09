@@ -28,5 +28,5 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """ format obfuscated message """
-        return filter_datum(PII_FIELDS, self.REDACTION,
-                            super().format(record), self.SEPARATOR)
+        msg = super(RedactingFormatter, self).format(record)
+        return filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
