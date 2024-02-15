@@ -2,6 +2,7 @@
 """ Module of API authentication
 """
 from api.v1.auth.auth import Auth
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -43,3 +44,19 @@ class BasicAuth(Auth):
                 ':' not in decoded_base64_authorization_header:
             return (None, None)
         return tuple(decoded_base64_authorization_header.split(':', 1))
+
+    def user_object_from_credentials(self, user_email: str, user_pwd: str
+                                     ) -> TypeVar('User'):
+        """ Method that returns user object from credentials
+        """
+        if user_email is None or type(user_email) is not str or \
+                user_pwd is None or type(user_pwd) is not str:
+            return None
+        from models.user import User
+        try:
+            user = User.search({'email': user_email})[0]
+        except Exception:
+            return None
+        if user is None or not user.is_valid_password(user_pwd):
+            return None
+        return user
