@@ -21,7 +21,7 @@ if auth:
         auth = Auth()
     elif auth == 'basic_auth':
         auth = BasicAuth()
-    elif auth == 'SessionAuth':
+    elif auth == 'session_auth':
         auth = SessionAuth()
     else:
         auth = None
